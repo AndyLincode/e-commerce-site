@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.container-slider {
+  max-width: 700px;
+  height: 500px;
+  margin: 50px auto 0;
+  position: relative;
+  overflow: hidden;
+  /* box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2); */
+}
+
+
+
+.slide {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 0;
+  transition: all .5s linear;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: all .5s linear;
+}
+
+.active-anim {
+  opacity: 1;
+  transition: all .5s linear;
+}
+
+.btn-slide {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 40px;
+}
+
+
+.prev {
+  top: 50%;
+  left: 20px;
+  transform: translateY(-60%);
+}
+
+.next {
+  top: 50%;
+  right: 20px;
+  transform: translateY(-60%);
+}
+
+.next:hover,
+.prev:hover {
+  background-color: rgba(218, 218, 218, 0.162);
+}
+
+
+.container-dots {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+}
+
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  margin: 0 5px;
+  background: #f8b72be8;
+}
+
+.dot.active {
+  background: #ea5514;
+}
+
+@media screen and (max-width: 700px) {
+  .container-slider {
+    margin: 30px 10px 0;
+  }
+
+  .next,
+  .prev {
+    font-size: 30px;
+  }
+
+  .dot {
+    width: 15px;
+    height: 15px;
+  }
+}
