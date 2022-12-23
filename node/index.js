@@ -19,6 +19,9 @@ app.get('/', (req, res) => {
 // 商品路由
 const productRouter = require(`${__dirname}/routes/product`);
 app.use('/product', productRouter);
+// 會員路由
+const memberRouter = require(`${__dirname}/routes/member`);
+app.use('/member', memberRouter);
 
 // 靜態資料夾
 app.use(express.static('public'));

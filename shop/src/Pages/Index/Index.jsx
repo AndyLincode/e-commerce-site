@@ -4,7 +4,7 @@ import Carousel from './Components/Carousel';
 
 function Index() {
   return (
-    <div className="bg-yellow-100 w-full h-full">
+    <div className="bg-[#fff5de] w-full">
       <Carousel />
     </div>
   );

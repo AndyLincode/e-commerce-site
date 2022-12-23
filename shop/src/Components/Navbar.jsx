@@ -6,7 +6,7 @@ function Navbar() {
   const item = [
     { name: 'HOME', link: '/' },
     { name: 'STORE', link: '/store' },
-    { name: 'ABOUT', link: '/about' },
+    { name: 'LOGIN', link: '/login' },
   ];
   // mobile navbar open & close
   const [open, setOpen] = useState(false);
