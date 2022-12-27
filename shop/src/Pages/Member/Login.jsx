@@ -57,9 +57,11 @@ export default function Login() {
 
     state.profile.login
       ? (
-        <button type="button" className="btn btn-error p-1 mt-2" onClick={handleLogout}>登出</button>
+        <div className="h-[330px] md:h-full">
+          <button type="button" className="btn btn-error p-1 mt-2" onClick={handleLogout}>登出</button>
+        </div>
       ) : (
-        <>
+        <div className=" h-[295px] md:h-full">
           <div className="flex flex-col mt-10 mb-3">
             <label htmlFor="mail" className="text-black">信箱</label>
             <input type="text" className="mail w-1/2 md:w-[200px] bg-white" name="mail" id="mail" value={mail} onChange={(e) => setMail(e.target.value)} />
@@ -83,7 +85,7 @@ export default function Login() {
             快速登入
 
           </button>
-        </>
+        </div>
 
       )
 

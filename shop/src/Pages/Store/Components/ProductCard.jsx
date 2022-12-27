@@ -1,10 +1,9 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 // redux
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addCart } from '../../../model/cartSlice';
 import { MY_HOST } from '../../../my-config';
 
@@ -15,8 +14,6 @@ export default function ProductCard({
   name, price, img, sid,
 }) {
   // variable
-  // eslint-disable-next-line no-shadow, no-unused-vars
-  const state = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   // state
@@ -38,7 +35,7 @@ export default function ProductCard({
       return;
     }
     dispatch(addCart({
-      sid, name, price, amount,
+      sid, name, img, price, amount,
     }));
     MySwal.fire({
       title: <strong>成功加入購物車</strong>,
@@ -56,7 +53,7 @@ export default function ProductCard({
         <h1>{name}</h1>
         <span className="text-red-600">{`$${formatPrice(price)}`}</span>
         <input type="number" defaultValue={0} className=" p-[2px] ml-3 w-8 rounded bg-slate-50 outline-yellow-500 border-none outline-1" onChange={(e) => setAmount(+e.target.value)} />
-        <span><i role="presentation" className="fa-sharp fa-solid fa-cart-shopping ml-3 cursor-pointer" onClick={handleAddCart} /></span>
+        <span><span role="presentation" className="fa-sharp fa-solid fa-cart-shopping ml-3 cursor-pointer" onClick={handleAddCart} /></span>
       </div>
     </div>
   );

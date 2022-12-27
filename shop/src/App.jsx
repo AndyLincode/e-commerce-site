@@ -9,8 +9,8 @@ import Store from './Pages/Store/Store';
 import Navbar from './Components/Navbar';
 import Footer from './Pages/Index/Components/Footer';
 import Login from './Pages/Member/Login';
+import Cart from './Pages/Cart/Cart';
 
-// eslint-disable-next-line no-unused-vars
 const store = configureStore({
   reducer: {
     user: userSlice,
@@ -27,6 +27,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/store" element={<Store />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login />} />
           </Routes>
           <Footer />
