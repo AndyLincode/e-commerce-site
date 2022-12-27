@@ -11,7 +11,12 @@ const MySwal = withReactContent(Swal);
 function Navbar() {
   // eslint-disable-next-line no-shadow
   const state = useSelector((state) => state.user);
-  // console.log(state.profile);
+  // eslint-disable-next-line no-shadow
+  const cartState = useSelector((state) => state.cart);
+  // eslint-disable-next-line no-unused-vars
+  const cartAmount = cartState.cart?.length > 0 ? cartState.cart.map((e, i) => e.amount) : 0;
+  // eslint-disable-next-line max-len
+  const amount = cartAmount ? cartAmount.reduce((accumulator, currentValue) => accumulator + currentValue) : 0;
   // if (localStorage.getItem('auth')) {
   //   state.profile.login = JSON.parse(localStorage.getItem('auth').login);
   // }
@@ -47,8 +52,8 @@ function Navbar() {
           PET
         </div>
         {state.profile.login ? (
-          <p className=" text-right">{`歡迎，${state.profile.name}`}</p>
-        ) : (<p className=" text-right">未登入</p>)}
+          <p className=" absolute top-0 right-6 text-sm">{`歡迎，${state.profile.name}`}</p>
+        ) : (<p className="absolute top-0 right-6 text-sm">未登入</p>)}
         <div className="cart text-xl absolute right-[60px] top-5 text-yellow-800 cursor-pointer md:hidden z-[2]">
           <button
             type="button"
@@ -65,7 +70,7 @@ function Navbar() {
 
           </button>
           <i className="fa-regular fa-cart-shopping" />
-          <span className="flex justify-center align-middle items-center absolute rounded-full w-4 h-4 bg-red-600 text-sm text-center right-[-6px] bottom-0 text-white">1</span>
+          <span className="flex justify-center align-middle items-center absolute rounded-full w-5 h-5 bg-red-600 bg-opacity-90 text-xs text-center right-[-10px] bottom-[-2px] text-white">{amount > 10 ? '10+' : amount}</span>
         </div>
         <div
           role="presentation"

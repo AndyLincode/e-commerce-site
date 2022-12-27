@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import userSlice from './model/userSlice';
+import cartSlice from './model/cartSlice';
 import Index from './Pages/Index/Index';
 import Store from './Pages/Store/Store';
 import Navbar from './Components/Navbar';
@@ -13,6 +14,7 @@ import Login from './Pages/Member/Login';
 const store = configureStore({
   reducer: {
     user: userSlice,
+    cart: cartSlice,
   },
 });
 

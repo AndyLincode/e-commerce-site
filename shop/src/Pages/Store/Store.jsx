@@ -51,7 +51,7 @@ function Store() {
       <div className="container flex flex-wrap my-5">
         {productData.length > 0
           // eslint-disable-next-line max-len
-          && productData.map((e) => (<ProductCard key={e.sid} name={e.name} price={e.member_price} img={e.img} />))}
+          && productData.map((e) => (<ProductCard key={e.sid} name={e.name} price={e.member_price} img={e.img} sid={e.sid} />))}
         {totalAmount > 0 && amount >= totalAmount ? (
           <div className="hidden btn-group mx-auto mt-5">
             <button type="button" className="rounded-2xl p-3 btn-primary" onClick={() => setAmount(amount + 6)}>SHOW MORE</button>
