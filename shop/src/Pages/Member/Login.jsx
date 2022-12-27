@@ -2,23 +2,26 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import axios from 'axios';
-// 使用在 redux 中定義的 function
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { MY_HOST } from '../../my-config';
+// 使用在 redux 中定義的 function
+import { useDispatch, useSelector } from 'react-redux';
 import { setLogin, setLogout } from '../../model/userSlice';
+import { MY_HOST } from '../../my-config';
 
 const MySwal = withReactContent(Swal);
 
 export default function Login() {
+  // variable
   // eslint-disable-next-line no-shadow
   const state = useSelector((state) => state.user);
-  const [mail, setMail] = useState('');
-  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // state
+  const [mail, setMail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
     const data = await axios.post(`${MY_HOST}/member/login_api`, { mail, password });
