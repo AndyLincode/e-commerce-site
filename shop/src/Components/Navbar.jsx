@@ -1,7 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+// 使用在 redux 中定義的 state
+import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import { setLogout } from '../model/userSlice';
+
+const MySwal = withReactContent(Swal);
 
 function Navbar() {
+  // eslint-disable-next-line no-shadow
+  const state = useSelector((state) => state.user);
+  // console.log(state.profile);
+  // if (localStorage.getItem('auth')) {
+  //   state.profile.login = JSON.parse(localStorage.getItem('auth').login);
+  // }
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   // nav item & link
   const item = [
     { name: 'HOME', link: '/' },
@@ -11,6 +26,14 @@ function Navbar() {
   // mobile navbar open & close
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const handleLogout = () => {
+    dispatch(setLogout());
+    MySwal.fire({
+      title: <strong>已登出</strong>,
+      text: '期待您再回來！',
+      icon: 'success',
+    });
+  };
 
   useEffect(() => {
     setOpen(false);
@@ -23,7 +46,24 @@ function Navbar() {
           <span className="text-3xl text-yellow-800 mx-2"><i className="fa-regular fa-paw" /></span>
           PET
         </div>
+        {state.profile.login ? (
+          <p className=" text-right">{`歡迎，${state.profile.name}`}</p>
+        ) : (<p className=" text-right">未登入</p>)}
         <div className="cart text-xl absolute right-[60px] top-5 text-yellow-800 cursor-pointer md:hidden z-[2]">
+          <button
+            type="button"
+            className=" text-sm w-10 absolute top-2 right-[30px]"
+            onClick={() => {
+              if (state.profile.login) {
+                handleLogout();
+              } else {
+                navigate('/login');
+              }
+            }}
+          >
+            {state.profile.login ? '登出' : '登入'}
+
+          </button>
           <i className="fa-regular fa-cart-shopping" />
           <span className="flex justify-center align-middle items-center absolute rounded-full w-4 h-4 bg-red-600 text-sm text-center right-[-6px] bottom-0 text-white">1</span>
         </div>

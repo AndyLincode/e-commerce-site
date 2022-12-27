@@ -16,17 +16,23 @@ router.post('/login_api', async (req, res) => {
   const sql = 'SELECT * FROM members_data WHERE email=?';
   let row = [];
   row = await db.query(sql, [req.body.mail]);
-  // console.log(row[0][0].password);
-  output.success = req.body.password === row[0][0].password;
+  if (row[0][0]) {
+    // console.log(row);
+    // console.log(row[0][0]);
+    output.success = req.body.password === row[0][0].password;
+  } else {
+    output.error = '帳號或密碼錯誤';
+  }
 
   if (output.success) {
-    const { sid, name, email } = row;
+    const { sid, name, email } = row[0][0];
     const token = jwt.sign({ sid, name, email }, process.env.JWT_SECRET);
 
     output.auth = {
       sid,
       name,
       token,
+      login: true,
     };
   } else {
     // eslint-disable-next-line no-console
