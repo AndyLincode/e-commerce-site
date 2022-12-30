@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCart, reduceCart } from '../../model/cartSlice';
+import { addCart, reduceCart, removeItem } from '../../model/cartSlice';
 import { MY_HOST } from '../../my-config';
 
 export default function Cart() {
@@ -23,10 +23,18 @@ export default function Cart() {
     dispatch(reduceCart({ sid }));
   };
 
+  const handleRemove = (e) => {
+    const { sid } = e;
+    dispatch(removeItem({ sid }));
+  };
+
+  const totalPrice = state.cart.map((e) => e.price * e.amount);
+  const price = totalPrice.reduce((acc, cur) => acc + cur);
+
   return (
     <div className=" h-screen">
       <div className="cartProgressBar h-5 my-8">
-        流程圖
+        <p className="text-center">流程圖</p>
       </div>
       <div className="cartItem flex flex-col w-[90%] mx-auto">
         {state.cart.map((e, i) => (
@@ -42,9 +50,15 @@ export default function Cart() {
               <input className="w-4 h-3 bg-white text-black text-sm mx-2" type="number" value={e.amount} readOnly disabled />
               <div role="presentation" onClick={() => handleAddSingle(e)}><i className="fa-regular fa-plus text-xs" /></div>
             </div>
-            <div className="delItem absolute right-1 top-[-4px] cursor-pointer text-red-500"><i className="fa-light fa-trash text-xs" /></div>
+            <div role="presentation" className="delItem absolute right-1 top-[-4px] cursor-pointer text-red-500" onClick={() => handleRemove(e)}><i className="fa-light fa-trash text-xs" /></div>
           </div>
         ))}
+      </div>
+      <div className="totalPrice w-full flex justify-end pr-5 mt-3">
+        <p className="text-black">
+          金額：
+          <span className="ml-2 text-red-600">{price}</span>
+        </p>
       </div>
     </div>
   );

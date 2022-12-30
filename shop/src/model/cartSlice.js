@@ -52,12 +52,24 @@ const cartSlice = createSlice({
         }
       }
     },
-    // removeItem(state, action) {
-
-    // },
+    removeItem(state, action) {
+      const { sid } = action.payload;
+      const index = state.cart.findIndex((e) => e.sid === sid);
+      if (index >= 0) {
+        const cart1 = state.cart.slice(0, index);
+        const cart2 = state.cart.slice(index + 1);
+        const newCartItem = cart1.concat(cart2);
+        // eslint-disable-next-line no-param-reassign
+        state.cart = newCartItem;
+        localStorage.setItem('cart', JSON.stringify(newCartItem));
+      } else {
+        // eslint-disable-next-line no-alert
+        alert('無此商品項目');
+      }
+    },
   },
 });
 
-export const { addCart, reduceCart } = cartSlice.actions;
+export const { addCart, reduceCart, removeItem } = cartSlice.actions;
 
 export default cartSlice.reducer;
