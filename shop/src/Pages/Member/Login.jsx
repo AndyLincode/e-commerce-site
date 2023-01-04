@@ -62,29 +62,30 @@ export default function Login() {
         </div>
       ) : (
         <div className=" h-[295px] md:h-full">
-          <div className="flex flex-col mt-10 mb-3">
+          <div className="flex flex-col mt-10 mb-3 items-center">
             <label htmlFor="mail" className="text-black">信箱</label>
             <input type="text" className="mail w-1/2 md:w-[200px] bg-white" name="mail" id="mail" value={mail} onChange={(e) => setMail(e.target.value)} />
             <label htmlFor="password" className="text-black">密碼</label>
             <input type="text" className="password w-1/2 md:w-[200px] bg-white" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
-          <button
-            type="button"
-            className="btn border-none bg-[#f8b62b] text-white p-2 rounded-lg"
-            onClick={handleLogin}
-          >
-            登入
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setMail('dogcat@gmail.com');
-              setPassword('0721');
-            }}
-          >
-            快速登入
-
-          </button>
+          <div className="flex justify-center">
+            <button
+              type="button"
+              className="btn border-none bg-[#f8b62b] text-white px-2 rounded-lg mr-3"
+              onClick={handleLogin}
+            >
+              登入
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setMail('dogcat@gmail.com');
+                setPassword('0721');
+              }}
+            >
+              快速登入
+            </button>
+          </div>
         </div>
 
       )

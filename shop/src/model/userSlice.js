@@ -23,10 +23,12 @@ const userSlice = createSlice({
           token,
           login: true,
         };
+        localStorage.setItem('auth', JSON.stringify(action.payload.auth));
       }
     },
     setLogout(state) {
       state.profile = { ...initialState.profile };
+      localStorage.removeItem('auth');
     },
   },
 });

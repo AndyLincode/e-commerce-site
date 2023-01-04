@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { addCart, reduceCart, removeItem } from '../../model/cartSlice';
 import { MY_HOST } from '../../my-config';
 
@@ -8,6 +9,9 @@ export default function Cart() {
   // eslint-disable-next-line no-shadow
   const state = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const param = useLocation();
+  // console.log(param.pathname);
+  const [currentParam, setCurrentParam] = useState(param.pathname);
 
   const handleAddSingle = (e) => {
     const {
@@ -33,8 +37,21 @@ export default function Cart() {
 
   return (
     <div className=" h-screen">
-      <div className="cartProgressBar h-5 my-8">
-        <p className="text-center">流程圖</p>
+      <div className="cartProgressBar my-8 w-[80%] flex mx-auto">
+        <div className="progress flex h-full p-2 items-center justify-around">
+          <div className="flex flex-col items-center">
+            <div className="progressSvg"><i className={currentParam === '/cart' ? 'fa-light fa-ballot-check text-[#40220f]' : 'fa-light fa-ballot-check'} /></div>
+            <div className="progressText"><p className={currentParam === '/cart' ? 'text-xs text-[#40220f]' : 'fa-light fa-ballot-check'}>確認訂單</p></div>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="progressSvg"><i className="fa-regular fa-credit-card" /></div>
+            <div className="progressText"><p className=" text-xs">確認付款</p></div>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="progressSvg"><i className="fa-regular fa-file-check" /></div>
+            <div className="progressText"><p className=" text-xs">完成訂單</p></div>
+          </div>
+        </div>
       </div>
       <div className="cartItem flex flex-col w-[90%] mx-auto">
         {state.cart.map((e, i) => (
