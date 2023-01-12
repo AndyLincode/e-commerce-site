@@ -33,7 +33,7 @@ export default function Cart() {
   };
 
   const totalPrice = state.cart.map((e) => e.price * e.amount);
-  const price = totalPrice.reduce((acc, cur) => acc + cur);
+  const price = state.cart.length > 0 ? totalPrice.reduce((acc, cur) => acc + cur) : 0;
 
   return (
     <div className=" h-screen">

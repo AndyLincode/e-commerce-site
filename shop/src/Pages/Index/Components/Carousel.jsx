@@ -53,7 +53,7 @@ function Carousel() {
       <BtnSlider moveSlide={prevSlide} direction="prev" />
       <div className="container-dots">
         {Array.from({ length: 3 }).map((item, index) => (
-          <div role="presentation" className={slideIndex === index + 1 ? 'dot active' : 'dot cursor-pointer'} onClick={() => moveDot(index + 1)} />
+          <div key={index} role="presentation" className={slideIndex === index + 1 ? 'dot active' : 'dot cursor-pointer'} onClick={() => moveDot(index + 1)} />
         ))}
       </div>
     </div>
