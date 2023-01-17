@@ -19,6 +19,9 @@ app.get('/', (req, res) => {
 // 商品路由
 const productRouter = require(`${__dirname}/routes/product`);
 app.use('/product', productRouter);
+// 購物車路由
+const cartRouter = require(`${__dirname}/routes/cart`);
+app.use('/cart', cartRouter);
 // 會員路由
 const memberRouter = require(`${__dirname}/routes/member`);
 app.use('/member', memberRouter);
