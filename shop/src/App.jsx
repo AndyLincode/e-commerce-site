@@ -10,6 +10,8 @@ import Navbar from './Components/Navbar';
 import Footer from './Pages/Index/Components/Footer';
 import Login from './Pages/Member/Login';
 import Cart from './Pages/Cart/Cart';
+import CartDemo from './Pages/Cart/CartDemo';
+import CartSuccess from './Pages/Cart/CartSuccess';
 
 const store = configureStore({
   reducer: {
@@ -27,7 +29,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/store" element={<Store />} />
+            <Route path="/check" element={<CartDemo />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/success" element={<CartSuccess />} />
             <Route path="/login" element={<Login />} />
           </Routes>
           <Footer />

@@ -46,9 +46,8 @@ function Navbar() {
   return (
     <div className="shadow-md w-full fix left-0 top-0">
       <div className="md:flex items-center justify-between bg-white py-4 md:px-10 px-3">
-        <div role="presentation" onClick={() => navigate('/')} className="font-bold text-2xl cursor-pointer flex items-center font-mono text-yellow-800">
-          <span className="text-3xl text-yellow-800 mx-2"><i className="fa-regular fa-paw" /></span>
-          PET
+        <div className="font-bold text-2xl cursor-pointer flex items-center font-mono text-yellow-800">
+          <span className="text-3xl text-yellow-800 mx-2" role="presentation" onClick={() => navigate('/')}><i className="fa-regular fa-paw mr-1" />PET</span>
         </div>
         {state.profile.login ? (
           <p className=" absolute top-0 right-6 text-sm">
@@ -71,7 +70,7 @@ function Navbar() {
           role="presentation"
           className="cart text-xl absolute right-[60px] top-5 text-yellow-800 cursor-pointer md:hidden z-[2]"
           onClick={() => {
-            navigate('/cart');
+            navigate('/check');
           }}
         >
           <i className="fa-regular fa-cart-shopping" />

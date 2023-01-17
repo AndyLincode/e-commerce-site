@@ -22,7 +22,6 @@ function Store() {
   const getProductData = async () => {
     try {
       const res = await axios.get(`${MY_HOST}/product/api/data?amount=${amount}${currentCate !== 'ALL' ? currentCate === 'DOG' ? '&cate=1' : '&cate=2' : ''}`);
-
       // console.log(res.data);
       const data = res.data.rows;
       const total = res.data.num;
@@ -46,7 +45,7 @@ function Store() {
   return (
     <div className="w-full h-full">
       <ul className="flex justify-around mt-8">
-        {categories.map((cate) => (<li role="presentation" key={cate.name} className={currentCate === cate.name ? ' text-orange-500 font-bold' : ''} onClick={() => setCurrentCate(`${cate.name}`)}>{cate.name}</li>))}
+        {categories.map((cate) => (<li role="presentation" key={cate.name} className={currentCate === cate.name ? ' text-orange-500 font-bold cursor-pointer' : 'cursor-pointer'} onClick={() => setCurrentCate(`${cate.name}`)}>{cate.name}</li>))}
       </ul>
       <div className="container flex flex-wrap my-5 md:mx-auto">
         {productData.length > 0
@@ -54,11 +53,11 @@ function Store() {
           && productData.map((e) => (<ProductCard key={e.sid} name={e.name} price={e.member_price} img={e.img} sid={e.sid} />))}
         {totalAmount > 0 && amount >= totalAmount ? (
           <div className="hidden btn-group mx-auto mt-5">
-            <button type="button" className="rounded-2xl p-3 btn-primary" onClick={() => setAmount(amount + 6)}>SHOW MORE</button>
+            <button type="button" className="rounded-2xl p-3 btn-primary" onClick={() => setAmount(amount + 12)}>SHOW MORE</button>
           </div>
         ) : (
           <div className="btn-group mx-auto mt-5">
-            <button type="button" className="rounded-2xl p-3 btn-primary" onClick={() => setAmount(amount + 6)}>SHOW MORE</button>
+            <button type="button" className="rounded-2xl p-3 btn-primary" onClick={() => setAmount(amount + 12)}>SHOW MORE</button>
           </div>
         )}
 
