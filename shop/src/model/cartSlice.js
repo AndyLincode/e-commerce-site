@@ -67,9 +67,13 @@ const cartSlice = createSlice({
         alert('無此商品項目');
       }
     },
+    clearItem(state) {
+      state.cart = [];
+      localStorage.removeItem('cart');
+    },
   },
 });
 
-export const { addCart, reduceCart, removeItem } = cartSlice.actions;
+export const { addCart, reduceCart, removeItem, clearItem } = cartSlice.actions;
 
 export default cartSlice.reducer;
