@@ -45,7 +45,7 @@ export default function ProductCard({
 
   // render
   return (
-    <div className="w-1/2">
+    <div className="w-1/2 md:w-1/4">
       <div className="imageWrap">
         <img src={`${MY_HOST}/images/${img}`} alt={`${name}`} />
       </div>

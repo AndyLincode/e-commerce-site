@@ -16,12 +16,12 @@ function Store() {
   // eslint-disable-next-line no-unused-vars
   const [currentCate, setCurrentCate] = useState('ALL');
   // eslint-disable-next-line no-unused-vars
-  const [amount, setAmount] = useState(6);
+  const [amount, setAmount] = useState(12);
   const [totalAmount, setTotalAmount] = useState(0);
 
   const getProductData = async () => {
     try {
-      const res = await axios.get(`${MY_HOST}/product/api/data?amount=${amount}`);
+      const res = await axios.get(`${MY_HOST}/product/api/data?amount=${amount}${currentCate !== 'ALL' ? currentCate === 'DOG' ? '&cate=1' : '&cate=2' : ''}`);
 
       // console.log(res.data);
       const data = res.data.rows;
@@ -41,14 +41,14 @@ function Store() {
   }, []);
   useEffect(() => {
     getProductData();
-  }, [amount]);
+  }, [amount, currentCate]);
 
   return (
     <div className="w-full h-full">
       <ul className="flex justify-around mt-8">
         {categories.map((cate) => (<li role="presentation" key={cate.name} className={currentCate === cate.name ? ' text-orange-500 font-bold' : ''} onClick={() => setCurrentCate(`${cate.name}`)}>{cate.name}</li>))}
       </ul>
-      <div className="container flex flex-wrap my-5">
+      <div className="container flex flex-wrap my-5 md:mx-auto">
         {productData.length > 0
           // eslint-disable-next-line max-len
           && productData.map((e) => (<ProductCard key={e.sid} name={e.name} price={e.member_price} img={e.img} sid={e.sid} />))}
