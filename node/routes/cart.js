@@ -7,6 +7,21 @@ const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
 const db = require(`${__dirname}/../modules/db_connect`);
 
+const getCartData = async (req, res) => {
+  const cartItem = req.body;
+  const rows = [];
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < req.body.length; i++) {
+    const sql = 'SELECT p.member_price FROM products p WHERE p.sid=?';
+
+    // eslint-disable-next-line no-await-in-loop, camelcase
+    const data = await db.query(sql, cartItem[i].sid);
+    rows.push(+data[0][0].member_price * +cartItem[i].amount);
+    // console.log(data[0][0].member_price * cartItem[i].amount);
+  }
+  return { rows };
+};
+
 const createOrders = async (req, res) => {
   const output = {
     success: false,
@@ -60,6 +75,12 @@ const getOrderDetails = async (req, res) => {
 
   return { rows };
 };
+
+router.post('/cartData', async (req, res) => {
+  const { rows } = await getCartData(req);
+
+  res.json(rows);
+});
 
 router.post('/createOrders', async (req, res) => {
   const data = await createOrders(req);
