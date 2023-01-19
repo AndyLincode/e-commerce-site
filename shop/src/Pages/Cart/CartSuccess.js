@@ -4,11 +4,7 @@ import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
 import { MY_HOST } from '../../my-config';
-
-const MySwal = withReactContent(Swal);
 
 export default function Cart() {
   const params = new URLSearchParams(document.location.search);
@@ -35,10 +31,6 @@ export default function Cart() {
     }
     setOrder(res.data.rows);
   };
-
-  const totalPrice = state.cart.map((e) => e.price * e.amount);
-  const price =
-    state.cart.length > 0 ? totalPrice.reduce((acc, cur) => acc + cur) : 0;
 
   useEffect(() => {
     getOrderInfo();
@@ -110,7 +102,12 @@ export default function Cart() {
                     顯示更多
                   </p>
                 </div>
-                <div>{e.ordered_at}</div>
+                <div>
+                  <p>訂單時間：{e.ordered_at}</p>
+                </div>
+                <div>
+                  <p>付款方式：{e.pay_way}</p>
+                </div>
               </div>
             );
           })}
@@ -118,7 +115,7 @@ export default function Cart() {
       <div className="totalPrice w-full flex justify-end pr-5 mt-3">
         <p className="text-black">
           金額：
-          <span className="ml-2 text-red-600">{price}</span>
+          <span className="ml-2 text-red-600">{order[0]?.total_price}</span>
         </p>
       </div>
     </div>

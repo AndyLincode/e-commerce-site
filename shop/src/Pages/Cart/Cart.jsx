@@ -114,7 +114,7 @@ export default function Cart() {
       </div>
       <div className='payMethod ml-5 w-[30%] absolute'>
         <div onClick={() => setPayWay('CASH')} className={` m-3 border-2 rounded-lg text-center cursor-pointer ${payWay === 'CASH' ? 'border-yellow-400 bg-yellow-400' : 'border-slate-500 bg-slate-500'}`}><p className='text-white'>CASH</p></div>
-        <div onClick={() => setPayWay('LINE')} className={` m-3 border-2 rounded-lg text-center cursor-pointer ${payWay === 'LINE' ? 'border-green-400 bg-green-400' : 'border-slate-500 bg-slate-500'}`}><p className='text-white'>LINEPAY</p></div>
+        <div onClick={() => setPayWay('LINEPAY')} className={` m-3 border-2 rounded-lg text-center cursor-pointer ${payWay === 'LINEPAY' ? 'border-green-400 bg-green-400' : 'border-slate-500 bg-slate-500'}`}><p className='text-white'>LINEPAY</p></div>
       </div>
       <div className='editBtn flex justify-end mr-4 my-4'>
         <button className='text-white btn btn-error' onClick={() => {
