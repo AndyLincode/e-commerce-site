@@ -9,13 +9,7 @@ import { MY_HOST } from '../../my-config';
 export default function Cart() {
   const params = new URLSearchParams(document.location.search);
   const orderId = params.get('od_sid');
-
-  // eslint-disable-next-line no-shadow
-  const state = useSelector((state) => state.cart);
   const param = useLocation();
-  const navigate = useNavigate();
-  // console.log(param.pathname);
-  // console.log(param);
   const [currentParam, setCurrentParam] = useState(param.pathname);
   const [order, setOrder] = useState([]);
   const [show, setShow] = useState('');

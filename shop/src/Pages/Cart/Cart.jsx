@@ -66,9 +66,6 @@ export default function Cart() {
     }
   }
 
-  // const totalPrice = state.cart.map((e) => e.price * e.amount);
-  // const price = state.cart.length > 0 ? totalPrice.reduce((acc, cur) => acc + cur) : 0;
-
   useEffect(() => {
     getCartData();
   }, [])

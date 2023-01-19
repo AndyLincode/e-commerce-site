@@ -17,7 +17,6 @@ export default function CartDemo() {
   const dispatch = useDispatch();
   const param = useLocation();
   const navigate = useNavigate();
-  // console.log(param.pathname);
   const [currentParam, setCurrentParam] = useState(param.pathname);
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -71,9 +70,6 @@ export default function CartDemo() {
       }
     }
   };
-  // const totalPrice = state.cart.map((e) => e.price * e.amount);
-  // const price =
-  //   state.cart.length > 0 ? totalPrice.reduce((acc, cur) => acc + cur) : 0;
 
   useEffect(() => {
     getCartData();
