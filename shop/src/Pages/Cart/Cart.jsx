@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -21,7 +21,21 @@ export default function Cart() {
   // console.log(param.pathname);
   const [currentParam, setCurrentParam] = useState(param.pathname);
   const [payWay, setPayWay] = useState('CASH');
+  const [totalPrice, setTotalPrice] = useState(0);
 
+  const getCartData = async () => {
+    if (state.cart.length > 0) {
+      const orders = state.cart.map((e) => {
+        return { sid: e.sid, amount: e.amount };
+      });
+      try {
+        const res = await axios.post(`${MY_HOST}/cart/cartData`, orders);
+        setTotalPrice(res.data.reduce((acc, cur) => acc + cur, 0));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
 
   const handleSubmit = async () => {
     if (userState.profile.login) {
@@ -52,8 +66,12 @@ export default function Cart() {
     }
   }
 
-  const totalPrice = state.cart.map((e) => e.price * e.amount);
-  const price = state.cart.length > 0 ? totalPrice.reduce((acc, cur) => acc + cur) : 0;
+  // const totalPrice = state.cart.map((e) => e.price * e.amount);
+  // const price = state.cart.length > 0 ? totalPrice.reduce((acc, cur) => acc + cur) : 0;
+
+  useEffect(() => {
+    getCartData();
+  }, [])
 
   return (
     <div className=" h-screen">
@@ -91,7 +109,7 @@ export default function Cart() {
       <div className="totalPrice w-full flex justify-end pr-5 mt-3">
         <p className="text-black">
           金額：
-          <span className="ml-2 text-red-600">{price}</span>
+          <span className="ml-2 text-red-600">{totalPrice}</span>
         </p>
       </div>
       <div className='payMethod ml-5 w-[30%] absolute'>
