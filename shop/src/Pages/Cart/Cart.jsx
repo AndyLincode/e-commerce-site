@@ -18,10 +18,11 @@ export default function Cart() {
   const dispatch = useDispatch();
   const param = useLocation();
   const navigate = useNavigate();
-  // console.log(param.pathname);
-  const [currentParam, setCurrentParam] = useState(param.pathname);
   const [payWay, setPayWay] = useState('CASH');
   const [totalPrice, setTotalPrice] = useState(0);
+
+  // 流程圖狀態用
+  const [currentParam, setCurrentParam] = useState(param.pathname);
 
   const getCartData = async () => {
     if (state.cart.length > 0) {
@@ -37,20 +38,24 @@ export default function Cart() {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (payWay) => {
     if (userState.profile.login) {
       if (state.cart.length > 0) {
-        const orders = state.cart.map((e) => { return { sid: e.sid, amount: e.amount } });
+        const orders = state.cart.map((e) => { return { sid: e.sid, name: e.name, amount: e.amount } });
         const sid = userState.profile.sid;
         try {
-          const res = await axios.post(`${MY_HOST}/cart/createOrders`, { orders, sid, payWay })
+          const res = await axios.post(`${MY_HOST}/cart/${payWay === 'LINEPAY' ? 'linepay' : 'createOrders'}`, { orders, sid, payWay })
           console.log(res);
-          if (res.data.output.success) {
+          if (res.data.output?.success) {
             MySwal.fire({
               title: <strong>成功送出訂單</strong>,
               icon: 'success'
             })
             navigate(`/success?od_sid=${res.data.orderId}`);
+            dispatch(clearItem());
+          } else {
+            // console.log(res.data);
+            window.open(res.data, '_self');
             dispatch(clearItem());
           }
         } catch (err) {
@@ -120,7 +125,7 @@ export default function Cart() {
       </div>
       <div className='submitBtn flex justify-end mr-4 mt-4'>
         <button className={`btn btn-primary text-lg ${state.cart.length <= 0 ? 'btn-disabled text-stone-600' : ''}`} onClick={() => {
-          handleSubmit()
+          handleSubmit(payWay)
         }}>送出訂單</button>
       </div>
     </div>
