@@ -11,7 +11,6 @@ require('dotenv').config();
 
 const router = express.Router();
 const db = require(`${__dirname}/../modules/db_connect`);
-const sampleData = require('./sampleData');
 
 const {
   LINEPAY_CHANNEL_ID,
@@ -191,7 +190,6 @@ router.post('/createOrders', async (req, res) => {
 
 router.post('/linepay', async (req, res) => {
   const { data } = await createOrders(req, res);
-  console.log(data);
   orders = {
     amount: 0,
     currency: 'TWD',
