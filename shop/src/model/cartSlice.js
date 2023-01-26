@@ -6,7 +6,6 @@ const initialState = {
 
 if (localStorage.getItem('cart') && initialState.cart.length === 0) {
   const storage = JSON.parse(localStorage.getItem('cart'));
-  // console.log(storage);
   initialState.cart.push(...storage);
 }
 

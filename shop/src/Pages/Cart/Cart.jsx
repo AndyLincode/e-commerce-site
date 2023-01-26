@@ -39,7 +39,7 @@ export default function Cart() {
   };
 
   const handleSubmit = async (payWay) => {
-    if (userState.profile.login) {
+    if (userState.profile?.login) {
       if (state.cart.length > 0) {
         const orders = state.cart.map((e) => { return { sid: e.sid, name: e.name, amount: e.amount } });
         const sid = userState.profile.sid;
@@ -54,7 +54,6 @@ export default function Cart() {
             navigate(`/success?od_sid=${res.data.orderId}`);
             dispatch(clearItem());
           } else {
-            // console.log(res.data);
             window.open(res.data, '_self');
             dispatch(clearItem());
           }

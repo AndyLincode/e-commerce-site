@@ -44,7 +44,7 @@ export default function CartDemo() {
   };
 
   const handleSubmit = () => {
-    if (userState.profile.login) {
+    if (userState.profile?.login) {
       if (state.cart.length > 0) {
         navigate('/cart');
       }

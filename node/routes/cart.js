@@ -24,7 +24,7 @@ const {
 } = process.env;
 
 // eslint-disable-next-line object-curly-newline
-const orders = {
+let orders = {
   amount: 0,
   currency: 'TWD',
   orderId: '',
@@ -131,7 +131,7 @@ const createOrders = async (req, res) => {
       // console.log({ url, linePayBody: JSON.stringify(linePayBody), headers });
       // console.log(linePayRes);
       if (linePayRes?.data?.returnCode === '0000') {
-        res.json(linePayRes?.data?.info.paymentUrl.web);
+        // res.json(linePayRes?.data?.info.paymentUrl.web);
         // eslint-disable-next-line max-len, quotes
         const sql =
           'INSERT INTO orders(orders_num, member_sid, total_price, pay_way, ordered_at) VALUES ( ?,?,?,?,NOW())';
@@ -147,7 +147,7 @@ const createOrders = async (req, res) => {
           output.success = true;
         }
       }
-      return { orderId, linePayRes };
+      return { orderId, data: linePayRes };
     } catch (error) {
       console.log(error);
     }
@@ -191,8 +191,20 @@ router.post('/createOrders', async (req, res) => {
 
 router.post('/linepay', async (req, res) => {
   const { data } = await createOrders(req, res);
-
-  res.json(data?.linePayRes.data.info.paymentUrl.web);
+  console.log(data);
+  orders = {
+    amount: 0,
+    currency: 'TWD',
+    orderId: '',
+    packages: [
+      {
+        id: '1',
+        amount: 0,
+        products: [],
+      },
+    ],
+  };
+  res.json(data?.data?.info.paymentUrl.web);
 });
 
 router.get('/orderDetails', async (req, res) => {
