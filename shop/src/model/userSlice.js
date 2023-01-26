@@ -3,12 +3,17 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   profile: {
-    sid: 0,
+    sid: '',
     name: '',
     token: '',
     login: false,
   },
 };
+
+if (localStorage.getItem('auth') && initialState.profile.login === false) {
+  const storage = JSON.parse(localStorage.getItem('auth'));
+  initialState.profile = storage;
+}
 
 const userSlice = createSlice({
   name: 'user',
@@ -27,7 +32,12 @@ const userSlice = createSlice({
       }
     },
     setLogout(state) {
-      state.profile = { ...initialState.profile };
+      state.profile = {
+        sid: '',
+        name: '',
+        token: '',
+        login: false,
+      };
       localStorage.removeItem('auth');
     },
   },

@@ -16,9 +16,6 @@ function Navbar() {
   const cartAmount = cartState.cart?.length > 0 ? cartState.cart.map((e) => e.amount) : 0;
   // eslint-disable-next-line max-len
   const amount = cartAmount ? cartAmount.reduce((accumulator, currentValue) => accumulator + currentValue) : 0;
-  // if (localStorage.getItem('auth')) {
-  //   state.profile.login = JSON.parse(localStorage.getItem('auth').login);
-  // }
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // nav item & link
@@ -49,7 +46,7 @@ function Navbar() {
         <div className="font-bold text-2xl cursor-pointer flex items-center font-mono text-yellow-800">
           <span className="text-3xl text-yellow-800 mx-2" role="presentation" onClick={() => navigate('/')}><i className="fa-regular fa-paw mr-1" />PET</span>
         </div>
-        {state.profile.login ? (
+        {state.profile?.login ? (
           <p className=" absolute top-0 right-6 text-sm">
             {`歡迎，${state.profile.name}`}
             {' '}
