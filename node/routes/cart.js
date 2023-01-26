@@ -40,11 +40,11 @@ function createSignature(uri, linePayBody) {
   // eslint-disable-next-line radix
   const nonce = parseInt(new Date().getTime() / 1000);
   const string = `${LINEPAY_CHANNEL_SECRET_KEY}/${LINEPAY_VERSION}${uri}${JSON.stringify(
-    linePayBody
+    linePayBody,
   )}${nonce}`;
-  // console.log(linePayBody);
+
   const signature = Base64.stringify(
-    HmacSHA256(string, LINEPAY_CHANNEL_SECRET_KEY)
+    HmacSHA256(string, LINEPAY_CHANNEL_SECRET_KEY),
   );
   const headers = {
     'Content-Type': 'application/json',
@@ -77,17 +77,22 @@ const createOrders = async (req, res) => {
     postData: req.body, // 除錯,看資料用
     auth: {},
   };
+  // 新增 order sql 語法
+  const sql = 'INSERT INTO orders(orders_num, member_sid, total_price, pay_way, ordered_at) VALUES ( ?,?,?,?,NOW())';
+
   const products = req.body.orders;
   const sid = req.body.sid;
   const payWay = req.body.payWay;
   const orderId = uuidv4();
   let totalPrice = 0;
+
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < products.length; i++) {
-    // console.log(request[i].sid);
+    // 以資料庫價格為送出資料
     const pSql = `SELECT member_price FROM products WHERE sid = ${products[i].sid}`;
-    const oSql =
-      'INSERT INTO order_details(orders_num, product_sid, amount, subtotal) VALUES (?,?,?,?)';
+    // 新增 order detail sql 語法
+    const oSql = 'INSERT INTO order_details(orders_num, product_sid, amount, subtotal) VALUES (?,?,?,?)';
+
     // eslint-disable-next-line no-await-in-loop
     const result = await db.query(pSql);
     // eslint-disable-next-line no-await-in-loop
@@ -97,7 +102,7 @@ const createOrders = async (req, res) => {
       products[i].amount,
       +result[0][0].member_price * +products[i].amount,
     ]);
-    // console.log(result[0][0].member_price);
+
     totalPrice += +result[0][0].member_price * products[i].amount;
 
     // for LinePay
@@ -127,13 +132,7 @@ const createOrders = async (req, res) => {
     const url = `${LINEPAY_SITE}/${LINEPAY_VERSION}${uri}`;
     try {
       const linePayRes = await axios.post(url, linePayBody, { headers });
-      // console.log({ url, linePayBody: JSON.stringify(linePayBody), headers });
-      // console.log(linePayRes);
       if (linePayRes?.data?.returnCode === '0000') {
-        // res.json(linePayRes?.data?.info.paymentUrl.web);
-        // eslint-disable-next-line max-len, quotes
-        const sql =
-          'INSERT INTO orders(orders_num, member_sid, total_price, pay_way, ordered_at) VALUES ( ?,?,?,?,NOW())';
         const [result2] = await db.query(sql, [
           orderId,
           sid,
@@ -141,7 +140,6 @@ const createOrders = async (req, res) => {
           payWay,
         ]);
 
-        // console.log(result2.affectedRows);
         if (result2.affectedRows) {
           output.success = true;
         }
@@ -152,12 +150,8 @@ const createOrders = async (req, res) => {
     }
   }
 
-  // eslint-disable-next-line max-len, quotes
-  const sql =
-    'INSERT INTO orders(orders_num, member_sid, total_price, pay_way, ordered_at) VALUES ( ?,?,?,?,NOW())';
   const [result2] = await db.query(sql, [orderId, sid, totalPrice, payWay]);
 
-  // console.log(result2.affectedRows);
   if (result2.affectedRows) {
     output.success = true;
   }
@@ -167,7 +161,7 @@ const createOrders = async (req, res) => {
 
 const getOrderDetails = async (req, res) => {
   const orderId = req.query.orderId;
-  // console.log(orderId);
+
   const sql = `SELECT * FROM orders WHERE orders_num='${orderId}'`;
   let rows = [];
 
@@ -208,29 +202,6 @@ router.post('/linepay', async (req, res) => {
 router.get('/orderDetails', async (req, res) => {
   const data = await getOrderDetails(req);
   res.json(data);
-});
-
-router.get('/linepay/confirm', async (req, res) => {
-  const { transactionId, orderId } = req.query;
-  try {
-    const order = orders[orderId];
-
-    const linePayBody = {
-      amount: order.amount,
-      currency: 'TWD',
-    };
-
-    const uri = `/payments/${transactionId}/confirm`;
-
-    const headers = createSignature(uri, linePayBody);
-
-    const url = `${LINEPAY_SITE}/${LINEPAY_VERSION}${uri}`;
-    const linePayRes = await axios.post(url, linePayBody, { headers });
-
-    res.json(linePayRes.data);
-  } catch (error) {
-    console.log(error);
-  }
 });
 
 module.exports = router;
