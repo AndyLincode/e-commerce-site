@@ -45,7 +45,7 @@ export default function Cart() {
         const sid = userState.profile.sid;
         try {
           const res = await axios.post(`${MY_HOST}/cart/${payWay === 'LINEPAY' ? 'linepay' : 'createOrders'}`, { orders, sid, payWay })
-          console.log(res);
+          // console.log(res);
           if (res.data.output?.success) {
             MySwal.fire({
               title: <strong>成功送出訂單</strong>,

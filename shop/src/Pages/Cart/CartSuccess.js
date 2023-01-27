@@ -13,6 +13,8 @@ export default function Cart() {
   const [currentParam, setCurrentParam] = useState(param.pathname);
   const [order, setOrder] = useState([]);
   const [show, setShow] = useState('');
+  const [linePay, setLinePay] = useState(false);
+  const [linePayStatus, setLinePayStatus] = useState('Line Pay 付款失敗');
 
   const getOrderInfo = async () => {
     const res = await axios.get(
@@ -26,8 +28,23 @@ export default function Cart() {
     setOrder(res.data.rows);
   };
 
+  const linePayConfirm = async () => {
+    if (params.get('transactionId')) {
+      setLinePay(true);
+      const res = await axios.get(
+        `${MY_HOST}/cart/linepay/confirm?transactionId=${params.get(
+          'transactionId'
+        )}`
+      );
+      if (res?.data?.returnCode === '0000') {
+        setLinePayStatus('Line Pay 付款成功');
+      }
+    }
+  };
+
   useEffect(() => {
     getOrderInfo();
+    linePayConfirm();
   }, []);
 
   return (
@@ -106,11 +123,12 @@ export default function Cart() {
             );
           })}
       </div>
-      <div className="totalPrice w-full flex justify-end pr-5 mt-3">
+      <div className="totalPrice w-full flex justify-end pr-5 mt-3 flex-col items-end">
         <p className="text-black">
           金額：
           <span className="ml-2 text-red-600">{order[0]?.total_price}</span>
         </p>
+        <p className=" text-black">{linePay ? `${linePayStatus}` : ''}</p>
       </div>
     </div>
   );
